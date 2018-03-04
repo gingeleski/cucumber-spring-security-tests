@@ -1,0 +1,26 @@
+{
+    "users" :
+    [
+        { 
+            "username" : "rjohnson",
+            "password" : "Banana3",
+            "type" : "EMPLOYEE"
+        },
+        { 
+            "username" : "tsmith",
+            "password" : "Grapefruit4",
+            "type" : "ASSISTANT",
+            "assisting" : "rjohnson"
+        },
+        { 
+            "username" : "jmcdonald",
+            "password" : "Cranberry5",
+            "type" : "HR_MGR"
+        },
+        { 
+            "username" : "abrown",
+            "password" : "Watermelon6",
+            "type" : "ADMIN"
+        }
+    ]
+}

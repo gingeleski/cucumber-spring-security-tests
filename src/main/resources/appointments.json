@@ -1,0 +1,45 @@
+{
+    "appointments" :
+    [
+        {
+            "name" : "example.com Team Daily Scrum",
+            "room" : "05-104",
+            "owner" : "rjohnson",
+            "creator" : "tsmith",
+            "start" : 1520195794,
+            "end" : 1520195850
+        },
+        {
+            "name" : "example.com Team Daily Scrum",
+            "room" : "05-104",
+            "owner" : "rjohnson",
+            "creator" : "tsmith",
+            "start" : 1520195863,
+            "end" : 1520195868
+        },
+        {
+            "name" : "example.com Team Daily Scrum",
+            "room" : "05-104",
+            "owner" : "rjohnson",
+            "creator" : "tsmith",
+            "start" : 1520195879,
+            "end" : 1520195886
+        },
+        {
+            "name" : "example.com Team Daily Scrum",
+            "room" : "05-104",
+            "owner" : "rjohnson",
+            "creator" : "tsmith",
+            "start" : 1520195895,
+            "end" : 1520195900
+        },
+        {
+            "name" : "example.com Team Daily Scrum",
+            "room" : "05-104",
+            "owner" : "rjohnson",
+            "creator" : "tsmith",
+            "start" : 1520195922,
+            "end" : 1520195926
+        }
+    ]
+}
