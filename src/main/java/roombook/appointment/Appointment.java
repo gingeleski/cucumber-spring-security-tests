@@ -1,6 +1,6 @@
 package roombook.appointment;
 
-import java.time.LocalTime;
+import java.util.Date;
 
 public class Appointment
 {
@@ -8,8 +8,8 @@ public class Appointment
     private String room;
     private String owner;
     private String creator;
-    private LocalTime start;
-    private LocalTime end;
+    private Date start;
+    private Date end;
 
     public Appointment()
     {
@@ -53,19 +53,19 @@ public class Appointment
         this.creator = creator;
     }
 
-    public LocalTime getStart() {
+    public Date getStart() {
         return start;
     }
 
-    public void setStart(LocalTime start) {
+    public void setStart(Date start) {
         this.start = start;
     }
 
-    public LocalTime getEnd() {
+    public Date getEnd() {
         return end;
     }
 
-    public void setEnd(LocalTime end) {
+    public void setEnd(Date end) {
         this.end = end;
     }
 }
