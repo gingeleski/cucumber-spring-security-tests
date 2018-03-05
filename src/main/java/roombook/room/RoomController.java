@@ -11,6 +11,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.toIntExact;
+
 @RestController
 @RequestMapping("/rooms")
 public class RoomController {
@@ -25,6 +27,8 @@ public class RoomController {
 
             JSONParser parser = new JSONParser();
             JSONArray a = (JSONArray) parser.parse(new FileReader(jsonFilePath));
+            System.out.println(a.toJSONString());
+            System.out.println(a.size());
 
             for (Object o : a)
             {
@@ -44,7 +48,7 @@ public class RoomController {
                 }
 
                 room.setName((String) jsonRoom.get("name"));
-                room.setSeats((int) jsonRoom.get("seats"));
+                room.setSeats(toIntExact((long) jsonRoom.get("seats")));
 
                 this.rooms.add(room);
             }
