@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileReader;
@@ -20,7 +21,7 @@ public class RoomController {
         this.rooms = new ArrayList<>();
 
         try {
-            String jsonFilePath = RoomController.class.getClassLoader().getResource("users.json").getPath();
+            String jsonFilePath = RoomController.class.getClassLoader().getResource("rooms.json").getPath();
 
             JSONParser parser = new JSONParser();
             JSONArray a = (JSONArray) parser.parse(new FileReader(jsonFilePath));
@@ -55,5 +56,10 @@ public class RoomController {
 
     public RoomController() {
         initialLoadFromJsonFile();
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Room> getRooms() {
+        return this.rooms;
     }
 }

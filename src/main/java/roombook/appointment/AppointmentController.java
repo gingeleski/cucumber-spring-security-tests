@@ -25,7 +25,8 @@ public class AppointmentController {
         this.appointments = new ArrayList<>();
 
         try {
-            String jsonFilePath = AppointmentController.class.getClassLoader().getResource("users.json").getPath();
+            String jsonFilePath
+                    = AppointmentController.class.getClassLoader().getResource("appointments.json").getPath();
 
             JSONParser parser = new JSONParser();
             JSONArray a = (JSONArray) parser.parse(new FileReader(jsonFilePath));
