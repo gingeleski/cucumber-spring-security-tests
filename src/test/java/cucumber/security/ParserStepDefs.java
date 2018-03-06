@@ -4,8 +4,8 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 
-public class ParserSteps
-{
+public class ParserStepDefs {
+
     @Given("^sample feature file is ready$")
     public void givenStatement() {
     }
