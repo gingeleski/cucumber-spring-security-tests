@@ -4,7 +4,13 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileReader;
@@ -12,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
     private List<User> users;
@@ -59,6 +64,16 @@ public class UserController {
 
     public UserController() {
         initialLoadFromJsonFile();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/login")
+    public ResponseEntity getLogin(@CookieValue("JSESSIONID") String sessionCookie) {
+        if (sessionCookie.isEmpty()) {
+            // not logged in, needs to POST so this GET is wrong method
+            return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
+        }
+        // user is logged in so give 200 OK
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
 
