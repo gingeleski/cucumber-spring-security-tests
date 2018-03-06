@@ -1,33 +1,33 @@
 package cucumber.security;
 
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import roombook.Application;
 
 import java.util.Collections;
 
+//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("INTEGRATION_TEST")
 @ContextConfiguration
-public class IntegrationTestingBase {
+public abstract class IntegrationTestingBase {
+
+    @LocalServerPort
+    protected int serverPort;
 
     @Autowired
     protected TestRestTemplate template;
 
-    @Before
-    public void before() {
-	/*
-        // Cookie cutter how to add custom header globally
-        template.getRestTemplate().setInterceptors(Collections.singletonList((request, body, execution) -> {
-            request.getHeaders().add("iv-user", "user");
-            return execution.execute(request, body);
-        }));
-	*/
+    public String getCompleteLocalUrl(String path) {
+        return "http://localhost:" + serverPort + path;
     }
 
 }

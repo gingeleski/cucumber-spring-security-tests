@@ -3,41 +3,57 @@ package cucumber.security;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
-public class RequestStepDefs extends IntegrationTestingBase {
+public class RequestStepDefs extends IntegrationTestingBase
+{
+    private HttpHeaders reqHeaders = new HttpHeaders();
+    private String reqBody;
 
-    private ResponseEntity<String> response;
+    private ResponseEntity<String> res;
 
     @Given("^the application in an integration environment$")
     public void prepareIntegrationEnvironment() throws Throwable {
     }
 
     @Given("^the user is authenticated with username \"([^\"]*)\" and password \"([^\"]*)\"$")
-    public void authenticateUser(String username, String password) throws Throwable {
+    public void authenticateUser(String username, String password) throws Throwable
+    {
+        // TODO
     }
 
     @When("^the request body is \"([^\"]*)\"$")
-    public void setRequestBody(String requestBody) throws Throwable {
+    public void setRequestBody(String reqBody) throws Throwable
+    {
+        this.reqBody = reqBody;
     }
 
     @When("^a \"([^\"]*)\" request is made to endpoint \"([^\"]*)\"$")
-    public void makeRequest(String requestType, String endpoint) throws Throwable {
-        if (requestType.equals("GET")) {
-            response = template.getForEntity("endpoint", String.class);
+    public void makeRequest(String reqType, String endpoint) throws Throwable
+    {
+        String targetUrl = getCompleteLocalUrl(endpoint);
+
+        if (reqType.equals("GET"))
+        {
+            res = template.exchange(targetUrl, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
+        }
+        else if (reqType.equals("POST"))
+        {
+            reqHeaders.add("Content-Type", "application/x-www-form-urlencoded");
+            res = template.exchange(targetUrl, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
         }
     }
 
     @Then("^the response should have status code (\\d+)$")
-    public void assertResponseStatusCode(int statusCode) throws Throwable {
-        HttpStatus currentStatusCode = response.getStatusCode();
+    public void assertResponseStatusCode(int statusCode) throws Throwable
+    {
+        HttpStatus currentStatusCode = res.getStatusCode();
 
         assertThat("Response status code is not as expected : " +
-                response.getBody(), currentStatusCode.value(), is(statusCode));
+                res.getBody(), currentStatusCode.value(), is(statusCode));
     }
 
 }
