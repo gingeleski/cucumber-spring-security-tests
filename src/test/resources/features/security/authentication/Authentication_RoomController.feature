@@ -1,7 +1,7 @@
 @IntegrationTest @SecurityTest
 Feature: Authentication - RoomController
 
-  I want to run a sample feature file.
+  - Endpoints that require authentication cannot be accessed without it.
 
   Scenario: Cucumber setup
 
