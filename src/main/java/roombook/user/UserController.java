@@ -24,6 +24,11 @@ public class UserController {
 
     private UserRepository userRepository;
 
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        initialLoadFromJsonFile();
+    }
+
     private void initialLoadFromJsonFile() {
         try {
             String jsonFilePath = UserController.class.getClassLoader().getResource("users.json").getPath();
@@ -54,17 +59,12 @@ public class UserController {
                 user.setUsername((String) jsonUser.get("username"));
                 user.setPassword((String) jsonUser.get("password"));
 
-                userRepository.save(user);
+                this.userRepository.save(user);
             }
         }
         catch (Exception e) {
             return;
         }
-    }
-
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        initialLoadFromJsonFile();
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/login")
@@ -77,7 +77,7 @@ public class UserController {
             return;
         }
 
-        User user = userRepository.findByUsername(username);
+        User user = this.userRepository.findByUsername(username);
 
         if (user != null && password.equals(user.getPassword())) {
             res.addHeader(HEADER_STRING, TOKEN_PREFIX + SecurityUtils.generateToken(user.getUsername()));

@@ -3,14 +3,16 @@ package roombook.room;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import roombook.appointment.Appointment;
+import roombook.appointment.AppointmentService;
 import roombook.appointment.AvailabilityBlock;
 
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.toIntExact;
@@ -19,10 +21,17 @@ import static java.lang.Math.toIntExact;
 @RequestMapping("/rooms")
 public class RoomController {
 
-    private List<Room> rooms;
+    @Autowired
+    private RoomService roomService;
+
+    @Autowired
+    private AppointmentService appointmentService;
+
+    public RoomController() {
+        initialLoadFromJsonFile();
+    }
 
     private void initialLoadFromJsonFile() {
-        this.rooms = new ArrayList<>();
 
         try {
             String jsonFilePath = RoomController.class.getClassLoader().getResource("rooms.json").getPath();
@@ -50,7 +59,7 @@ public class RoomController {
                 room.setName((String) jsonRoom.get("name"));
                 room.setSeats(toIntExact((long) jsonRoom.get("seats")));
 
-                this.rooms.add(room);
+                this.roomService.save(room);
             }
         }
         catch (Exception e) {
@@ -58,30 +67,23 @@ public class RoomController {
         }
     }
 
-    public RoomController() {
-        initialLoadFromJsonFile();
-    }
-
     // TODO access control
     @RequestMapping(method = RequestMethod.GET)
     public List<Room> getRooms() {
-        return this.rooms;
+        return this.roomService.getRooms();
     }
 
     // TODO access control
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}")
     public Room getRoomByName(@PathVariable String roomName) {
-        for (Room room : this.rooms) {
-            if (room.getName().equalsIgnoreCase(roomName)) {
-                return room;
-            }
-        }
-        return null;
+        return this.roomService.getRoomByName(roomName);
     }
 
     // TODO access control
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}/availability")
-    public List<AvailabilityBlock> getRoomAvailabilityByName(@PathVariable String roomName) {
-        return null; // TODO
+    public List<Appointment> getRoomAvailabilityByName(@PathVariable String roomName) {
+        // TODO refactor to return AvailabilityBlock instead of Appointment
+        // TODO get start and end time parameters
+        return this.appointmentService.findByRoomName(roomName, null, null);
     }
 }

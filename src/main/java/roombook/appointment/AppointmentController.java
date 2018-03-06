@@ -3,6 +3,8 @@ package roombook.appointment;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,14 +17,18 @@ import java.util.List;
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    private List<Appointment> appointments;
+    @Autowired
+    private AppointmentService appointmentService;
+
+    public AppointmentController() {
+        initialLoadFromJsonFile();
+    }
 
     private Date getDateFromUnixTime(long unixTimestamp) {
         return new Date(unixTimestamp * 1000L);
     }
 
     private void initialLoadFromJsonFile() {
-        this.appointments = new ArrayList<>();
 
         try {
             String jsonFilePath
@@ -47,15 +53,11 @@ public class AppointmentController {
                 long endTime = (long) jsonAppointment.get("end");
                 appointment.setEnd(getDateFromUnixTime(endTime));
 
-                this.appointments.add(appointment);
+                this.appointmentService.save(appointment);
             }
         }
         catch (Exception e) {
             return;
         }
-    }
-
-    public AppointmentController() {
-        initialLoadFromJsonFile();
     }
 }

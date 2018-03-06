@@ -7,7 +7,7 @@ public class UserRepository {
     private List<User> users = new ArrayList<>();
 
     public User findByUsername(String username) {
-        for (User user : users) {
+        for (User user : this.users) {
             if (user.getUsername().equalsIgnoreCase(username)) {
                 return user;
             }
@@ -16,6 +16,6 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        users.add(user);
+        this.users.add(user);
     }
 }
