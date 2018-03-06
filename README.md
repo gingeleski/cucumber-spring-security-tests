@@ -5,10 +5,16 @@ A sample Spring Boot API with Gradle bindings.
 
 ## Quickstart
 
+Grab the code.
+
 ```
 git clone 
 cd sample-spring-boot-api
+```
 
+To launch the API with a root address `http://localhost:8080/` ...
+
+```
 # Windows
 .\gradle.bat bootRun
 
@@ -16,7 +22,15 @@ cd sample-spring-boot-api
 ./gradle bootRun
 ```
 
-The API is now accessible with a root address `http://localhost:8080/`
+To run the test suite...
+
+```
+# Windows
+.\gradle.bat test
+
+# Linux
+./gradle test
+```
 
 ## Concept
 
