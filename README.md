@@ -60,27 +60,26 @@ Loads canned data in the following order...
 
 ## API calls
 
-`POST /login` (TODO)
-- Authenticates a user, initiating a session
+`POST /login`
+- Authenticates user, setting `Authorization Bearer` header good for 10 days
+- Only endpoint you can hit unauthenticated
 - Input
-    - Form-encoded data
-    - `Username` is a string, required
-    - `Password` is a string, required
+    - Form-encoded data, make sure your request has `Content-Type: application/x-www-form-urlencoded`
+    - `username` is a string, required
+    - `password` is a string, required
 - Output
-    - Sets `JSESSIONID` cookie
+    - Sets header `Authorization: Bearer <TOKEN>`
 
 `GET /logout` (TODO)
-- Terminates the current user session
-- Output
-    - Clears `JSESSIONID` cookie
+- Does nothing right now
 - Must be authenticated as at least `EMPLOYEE`
 
-`GET /rooms` (TODO)
+`GET /rooms`
 - Get list of all rooms
 - Must be authenticated as at least `EMPLOYEE`
 
-`GET /rooms/<id>` (TODO)
-- Get information on the room with this ID
+`GET /rooms/<room_name>`
+- Get information on the room with this room name
 - Must be authenticated as at least `EMPLOYEE`
 
 `GET /rooms/<id>/availability` (TODO)
