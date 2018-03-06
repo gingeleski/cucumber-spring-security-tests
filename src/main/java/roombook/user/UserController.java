@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/login")
-    public ResponseEntity getLogin(@CookieValue("JSESSIONID") String sessionCookie) {
+    public ResponseEntity getLogin(@CookieValue(value = "JSESSIONID", defaultValue = "") String sessionCookie) {
         if (sessionCookie.isEmpty()) {
             // not logged in, needs to POST so this GET is wrong method
             return new ResponseEntity<>(HttpStatus.METHOD_NOT_ALLOWED);
