@@ -7,10 +7,12 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import roombook.security.SecurityUtils;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -23,6 +25,11 @@ import static roombook.security.SecurityUtils.TOKEN_PREFIX;
 public class UserController {
 
     private UserRepository userRepository;
+
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+        initialLoadFromJsonFile();
+    }
 
     private void initialLoadFromJsonFile() {
         try {
@@ -54,7 +61,7 @@ public class UserController {
                 user.setUsername((String) jsonUser.get("username"));
                 user.setPassword((String) jsonUser.get("password"));
 
-                userRepository.save(user);
+                this.userRepository.save(user);
             }
         }
         catch (Exception e) {
@@ -62,13 +69,9 @@ public class UserController {
         }
     }
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        initialLoadFromJsonFile();
-    }
-
+    @PermitAll
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public void getLogin(@RequestParam(value = "username", defaultValue = "") String username,
+    public void login(@RequestParam(value = "username", defaultValue = "") String username,
                          @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res) {
 
         if (username.isEmpty() || password.isEmpty()) {
@@ -77,7 +80,7 @@ public class UserController {
             return;
         }
 
-        User user = userRepository.findByUsername(username);
+        User user = this.userRepository.findByUsername(username);
 
         if (user != null && password.equals(user.getPassword())) {
             res.addHeader(HEADER_STRING, TOKEN_PREFIX + SecurityUtils.generateToken(user.getUsername()));
@@ -86,6 +89,12 @@ public class UserController {
         else {
             res.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(method = RequestMethod.GET, value = "/logout")
+    public void logout(HttpServletResponse res) {
+        res.setStatus(HttpStatus.OK.value());
     }
 }
 
