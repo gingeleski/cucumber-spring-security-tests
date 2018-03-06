@@ -7,10 +7,12 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 import roombook.security.SecurityUtils;
 
+import javax.annotation.security.PermitAll;
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -67,8 +69,9 @@ public class UserController {
         }
     }
 
+    @PermitAll
     @RequestMapping(method = RequestMethod.POST, value = "/login")
-    public void getLogin(@RequestParam(value = "username", defaultValue = "") String username,
+    public void login(@RequestParam(value = "username", defaultValue = "") String username,
                          @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res) {
 
         if (username.isEmpty() || password.isEmpty()) {
@@ -88,8 +91,9 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, value = "/logout")
-    public void getLogout(HttpServletResponse res) {
+    public void logout(HttpServletResponse res) {
         res.setStatus(HttpStatus.OK.value());
     }
 }

@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,19 +68,19 @@ public class RoomController {
         }
     }
 
-    // TODO access control
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET)
     public List<Room> getRooms() {
         return this.roomService.getRooms();
     }
 
-    // TODO access control
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}")
     public Room getRoomByName(@PathVariable String roomName) {
         return this.roomService.getRoomByName(roomName);
     }
 
-    // TODO access control
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}/availability")
     public List<Appointment> getRoomAvailabilityByName(@PathVariable String roomName) {
         // TODO refactor to return AvailabilityBlock instead of Appointment
