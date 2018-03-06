@@ -1,4 +1,4 @@
-package security.annotations;
+package junit.security.annotations;
 
 import static org.junit.Assert.*;
 

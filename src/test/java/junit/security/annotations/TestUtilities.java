@@ -1,4 +1,4 @@
-package security.annotations;
+package junit.security.annotations;
 
 import javax.annotation.security.PermitAll;
 import java.lang.annotation.Annotation;
