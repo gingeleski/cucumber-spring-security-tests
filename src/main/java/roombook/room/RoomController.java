@@ -13,6 +13,7 @@ import roombook.appointment.Appointment;
 import roombook.appointment.AppointmentService;
 import roombook.appointment.AvailabilityBlock;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class RoomController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET)
-    public List<Room> getRooms() {
+    public List<Room> getRooms(HttpServletResponse res) {
         return this.roomService.getRooms();
     }
 
