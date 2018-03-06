@@ -4,22 +4,27 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.*;
+import roombook.security.SecurityUtils;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
+import static roombook.security.SecurityUtils.HEADER_STRING;
+import static roombook.security.SecurityUtils.TOKEN_PREFIX;
+
 @RestController
-@RequestMapping("/users")
 public class UserController {
 
-    private List<User> users;
+    private UserRepository userRepository;
 
     private void initialLoadFromJsonFile() {
-        this.users = new ArrayList<>();
-
         try {
             String jsonFilePath = UserController.class.getClassLoader().getResource("users.json").getPath();
 
@@ -49,7 +54,7 @@ public class UserController {
                 user.setUsername((String) jsonUser.get("username"));
                 user.setPassword((String) jsonUser.get("password"));
 
-                this.users.add(user);
+                userRepository.save(user);
             }
         }
         catch (Exception e) {
@@ -57,8 +62,30 @@ public class UserController {
         }
     }
 
-    public UserController() {
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
         initialLoadFromJsonFile();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    public void getLogin(@RequestParam(value = "username", defaultValue = "") String username,
+                         @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res) {
+
+        if (username.isEmpty() || password.isEmpty()) {
+            System.out.println("Thinks username or password is empty");
+            res.setStatus(HttpStatus.BAD_REQUEST.value());
+            return;
+        }
+
+        User user = userRepository.findByUsername(username);
+
+        if (user != null && password.equals(user.getPassword())) {
+            res.addHeader(HEADER_STRING, TOKEN_PREFIX + SecurityUtils.generateToken(user.getUsername()));
+            res.setStatus(HttpStatus.OK.value());
+        }
+        else {
+            res.setStatus(HttpStatus.UNAUTHORIZED.value());
+        }
     }
 }
 
