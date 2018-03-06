@@ -1,7 +1,17 @@
 package roombook.user;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public abstract class User
 {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String username;
     private String password;
 
@@ -17,7 +27,9 @@ public abstract class User
         this.setPassword(password);
     }
 
-    public abstract String getType();
+    public long getId() {
+        return id;
+    }
 
     public String getUsername() {
         return username;
@@ -34,4 +46,6 @@ public abstract class User
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public abstract String getType();
 }
