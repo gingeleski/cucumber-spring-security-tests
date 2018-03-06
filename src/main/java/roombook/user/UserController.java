@@ -87,5 +87,10 @@ public class UserController {
             res.setStatus(HttpStatus.UNAUTHORIZED.value());
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/logout")
+    public void getLogout(HttpServletResponse res) {
+        res.setStatus(HttpStatus.OK.value());
+    }
 }
 
