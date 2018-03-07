@@ -9,14 +9,13 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
 import roombook.Application;
-
-import java.util.Collections;
 
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("INTEGRATION_TEST")
 @ContextConfiguration
+@WebAppConfiguration
 public abstract class IntegrationTestingBase {
 
     @LocalServerPort

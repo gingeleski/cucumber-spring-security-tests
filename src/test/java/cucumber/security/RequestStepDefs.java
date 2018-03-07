@@ -3,6 +3,7 @@ package cucumber.security;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
+import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 import static org.hamcrest.Matchers.is;
@@ -34,6 +35,8 @@ public class RequestStepDefs extends IntegrationTestingBase
     @When("^a \"([^\"]*)\" request is made to endpoint \"([^\"]*)\"$")
     public void makeRequest(String reqType, String endpoint) throws Throwable
     {
+        if (template == null) template = new TestRestTemplate();
+
         String targetUrl = getCompleteLocalUrl(endpoint);
 
         if (reqType.equals("GET"))
