@@ -1,10 +1,11 @@
 @IntegrationTest @SecurityTest
 Feature: Expect Header - UserController
 
-  I want to run a sample feature file.
+  - TODO
 
-  Scenario: Cucumber setup
+  Scenario: Authentication is successful with a valid username and valid password
 
-    Given sample feature file is ready
-    When I run the feature file
-    Then run should be successful
+    Given the application in an integration environment
+    When the request body is "username=rjohnson&password=Bananas3"
+    And a "POST" request is made to endpoint "/login"
+    Then the response should have status code 200

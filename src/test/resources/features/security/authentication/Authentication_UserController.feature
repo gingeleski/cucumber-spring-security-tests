@@ -16,7 +16,7 @@ Feature: Authentication - UserController
 
       Examples:
         | requestBody                            |
-        | username=rjohnson&password=Banana3     |
+        | username=rjohnson&password=Bananas3    |
         | username=tsmith&password=Grapefruit4   |
         | username=jmcdonald&password=Cranberry5 |
         | username=abrown&password=Watermelon6   |
@@ -54,7 +54,7 @@ Feature: Authentication - UserController
     Given the application in an integration environment
     When the request body is "<requestBody>"
     And a "POST" request is made to endpoint "/login"
-    Then the response should have status code 401
+    Then the response should have status code 400
 
       Examples:
         | requestBody        |
@@ -72,7 +72,7 @@ Feature: Authentication - UserController
 
       Examples:
         | username  | password    |
-        | rjohnson  | Banana3     |
+        | rjohnson  | Bananas3    |
         | tsmith    | Grapefruit4 |
         | jmcdonald | Cranberry5  |
         | abrown    | Watermelon6 |

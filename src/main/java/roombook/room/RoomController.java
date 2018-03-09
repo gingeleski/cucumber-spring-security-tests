@@ -4,6 +4,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,6 +70,11 @@ public class RoomController {
         }
     }
 
+    private boolean validateRoomName(String roomName)
+    {
+        return (!roomName.isEmpty() || roomName.matches("^[a-zA-Z0-9_-]*$"));
+    }
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET)
     public List<Room> getRooms(HttpServletResponse res) {
@@ -77,15 +83,29 @@ public class RoomController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}")
-    public Room getRoomByName(@PathVariable String roomName) {
+    public Room getRoomByName(@PathVariable String roomName, HttpServletResponse res) throws Throwable
+    {
+        if (false == validateRoomName(roomName)) {
+            res.setStatus(HttpStatus.BAD_REQUEST.value());
+            return null;
+        }
+
         return this.roomService.getRoomByName(roomName);
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}/availability")
-    public List<Appointment> getRoomAvailabilityByName(@PathVariable String roomName) {
+    public List<Appointment> getRoomAvailabilityByName(@PathVariable String roomName, HttpServletResponse res)
+    {
+        if (false == validateRoomName(roomName)) {
+            res.setStatus(HttpStatus.BAD_REQUEST.value());
+            return null;
+        }
+
         // TODO refactor to return AvailabilityBlock instead of Appointment
+
         // TODO get start and end time parameters
+
         return this.appointmentService.findByRoomName(roomName, null, null);
     }
 }

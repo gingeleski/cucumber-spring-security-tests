@@ -12,7 +12,7 @@ Feature: Authentication - RoomController
 
       Examples:
         | username  | password    |
-        | rjohnson  | Banana3     |
+        | rjohnson  | Bananas3    |
         | tsmith    | Grapefruit4 |
         | jmcdonald | Cranberry5  |
         | abrown    | Watermelon6 |
@@ -26,7 +26,7 @@ Feature: Authentication - RoomController
 
       Examples:
         | username  | password    | roomName |
-        | rjohnson  | Banana3     | 05-104   |
+        | rjohnson  | Bananas3    | 05-104   |
         | tsmith    | Grapefruit4 | 05-104   |
         | jmcdonald | Cranberry5  | 05-104   |
         | abrown    | Watermelon6 | 05-104   |
@@ -40,7 +40,7 @@ Feature: Authentication - RoomController
 
       Examples:
         | username  | password    | roomName |
-        | rjohnson  | Banana3     | 05-104   |
+        | rjohnson  | Bananas3    | 05-104   |
         | tsmith    | Grapefruit4 | 05-104   |
         | jmcdonald | Cranberry5  | 05-104   |
         | abrown    | Watermelon6 | 05-104   |
