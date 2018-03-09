@@ -3,8 +3,6 @@ package cucumber.security;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
-import org.junit.Assert;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
 import static org.hamcrest.Matchers.is;
@@ -24,7 +22,36 @@ public class RequestStepDefs extends IntegrationTestingBase
     @Given("^the user is authenticated with username \"([^\"]*)\" and password \"([^\"]*)\"$")
     public void authenticateUser(String username, String password) throws Throwable
     {
-        // TODO
+        String authReqBody = "username=" + username + "&password=" + password;
+
+        HttpHeaders authReqHeaders = new HttpHeaders();
+        authReqHeaders.add("Content-Type", "application/x-www-form-urlencoded");
+
+        ResponseEntity<String> authRes
+                = template.exchange("/login", HttpMethod.POST,
+                        new HttpEntity<>(authReqBody, authReqHeaders), String.class);
+
+        if (authRes.getStatusCode() == HttpStatus.OK)
+        {
+            HttpHeaders authResHeaders = authRes.getHeaders();
+
+            String authHeaderName = "Authorization";
+
+            if (authResHeaders.containsKey(authHeaderName))
+            {
+                String authHeaderValue = authResHeaders.getFirst(authHeaderName);
+
+                reqHeaders.add(authHeaderName, authHeaderValue);
+            }
+            else {
+                throw new RuntimeException("Response to authentication request not as expected - update test code?");
+            }
+        }
+        else
+        {
+            throw new RuntimeException("Authentication request failed with username '"
+                                                                    + username + "', password '" + password + "'");
+        }
     }
 
     @When("^the request body is \"([^\"]*)\"$")
@@ -36,10 +63,6 @@ public class RequestStepDefs extends IntegrationTestingBase
     @When("^a \"([^\"]*)\" request is made to endpoint \"([^\"]*)\"$")
     public void makeRequest(String reqType, String endpoint) throws Throwable
     {
-        //if (template == null) template = new TestRestTemplate();
-
-        //String targetUrl = getCompleteLocalUrl(endpoint);
-
         if (reqType.equals("GET"))
         {
             res = template.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
@@ -48,6 +71,10 @@ public class RequestStepDefs extends IntegrationTestingBase
         {
             reqHeaders.add("Content-Type", "application/x-www-form-urlencoded");
             res = template.exchange(endpoint, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
+        }
+        else
+        {
+            throw new RuntimeException("Could not understand provided request method '" + reqType + "'");
         }
     }
 
