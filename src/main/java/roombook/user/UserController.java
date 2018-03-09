@@ -74,15 +74,9 @@ public class UserController {
     public void login(@RequestParam(value = "username", defaultValue = "") String username,
                          @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res) {
 
-        if (username.isEmpty() || password.isEmpty()) {
-            System.out.println("Thinks username or password is empty");
-            res.setStatus(HttpStatus.BAD_REQUEST.value());
-            return;
-        }
-
         User user = this.userRepository.findByUsername(username);
 
-        if (user != null && password.equals(user.getPassword())) {
+        if (user != null && !password.isEmpty() && password.equals(user.getPassword())) {
             res.addHeader(HEADER_STRING, TOKEN_PREFIX + SecurityUtils.generateToken(user.getUsername()));
             res.setStatus(HttpStatus.OK.value());
         }
