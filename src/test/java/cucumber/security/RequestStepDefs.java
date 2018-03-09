@@ -3,6 +3,7 @@ package cucumber.security;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
+import org.junit.Assert;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
@@ -35,18 +36,18 @@ public class RequestStepDefs extends IntegrationTestingBase
     @When("^a \"([^\"]*)\" request is made to endpoint \"([^\"]*)\"$")
     public void makeRequest(String reqType, String endpoint) throws Throwable
     {
-        if (template == null) template = new TestRestTemplate();
+        //if (template == null) template = new TestRestTemplate();
 
-        String targetUrl = getCompleteLocalUrl(endpoint);
+        //String targetUrl = getCompleteLocalUrl(endpoint);
 
         if (reqType.equals("GET"))
         {
-            res = template.exchange(targetUrl, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
+            res = template.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
         }
         else if (reqType.equals("POST"))
         {
             reqHeaders.add("Content-Type", "application/x-www-form-urlencoded");
-            res = template.exchange(targetUrl, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
+            res = template.exchange(endpoint, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
         }
     }
 
