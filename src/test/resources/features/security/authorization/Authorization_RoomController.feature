@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Authorization - RoomController
 
   Note: authorization in RoomController is currently flat, nothing to security test

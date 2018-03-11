@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Authorization - UserController
 
   Note: authorization in UserController is currently flat, nothing to security test

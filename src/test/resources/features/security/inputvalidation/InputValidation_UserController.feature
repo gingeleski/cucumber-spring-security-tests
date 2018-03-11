@@ -10,6 +10,7 @@ Feature: Input Validation - UserController
 
     Given the application in an integration environment
     When the request body is "<requestBody>"
+    And header "Content-Type" is set to "application/x-www-form-urlencoded"
     And a "POST" request is made to endpoint "/login"
     Then the response should have status code 400
 

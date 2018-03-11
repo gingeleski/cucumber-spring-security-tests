@@ -1,5 +1,7 @@
 package roombook.security;
 
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -15,6 +17,12 @@ public class SecurityHeadersFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException
     {
+        // POST requests should have a Content-Type header
+        if (request.getMethod() == HttpMethod.POST.name() && request.getHeader("Content-Type") == null)
+        {
+            response.sendError(HttpStatus.BAD_REQUEST.value());
+        }
+
         response.addHeader("Content-Security-Policy", "default-src: 'self'");
         filterChain.doFilter(request, response);
     }

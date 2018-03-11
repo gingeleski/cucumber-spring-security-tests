@@ -1,9 +1,9 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Missing Host - RoomController
 
   - TODO
 
-  Scenario: An authenticated user can successfully get the rooms list
+  Scenario: TODO Missing Host - Room Controller
 
     Given the application in an integration environment
     When the user is authenticated with username "rjohnson" and password "Bananas3"

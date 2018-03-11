@@ -72,8 +72,8 @@ public class UserController {
     @PermitAll
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public void login(@RequestParam(value = "username", defaultValue = "") String username,
-                         @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res) {
-
+                         @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res)
+    {
         String usernameChars = "^[a-zA-Z0-9_-]*$";
 
         // Validate username

@@ -1,9 +1,9 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Missing Host - UserController
 
   - TODO
 
-  Scenario: Authentication is successful with a valid username and valid password
+  Scenario: TODO Missing Host - UserController
 
     Given the application in an integration environment
     When the request body is "username=rjohnson&password=Bananas3"

@@ -4,21 +4,23 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import org.springframework.http.*;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.http.client.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.InetSocketAddress;
-import java.net.Proxy;
-import java.util.Properties;
+import java.io.IOException;
+import java.util.List;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class RequestStepDefs extends IntegrationTestingBase
 {
+    // Request stuff
+    private RestTemplate restTemplate;
     private HttpHeaders reqHeaders = new HttpHeaders();
-    private String reqBody;
+    private String reqBody = null;
 
+    // Response stuff
     private ResponseEntity<String> res;
 
     @Given("^the application in an integration environment$")
@@ -66,26 +68,49 @@ public class RequestStepDefs extends IntegrationTestingBase
         this.reqBody = reqBody;
     }
 
+    @When("^header \"([^\"]*)\" is set to \"([^\"]*)\"$")
+    public void setRequestHeader(String headerName, String headerValue) throws Throwable
+    {
+        reqHeaders.add(headerName, headerValue);
+    }
+
+    @When("^the request has no \"([^\"]*)\" header$")
+    public void removeRequestHeader(String headerName) throws Throwable
+    {
+        if (restTemplate == null) restTemplate = template.getRestTemplate();
+
+        List<ClientHttpRequestInterceptor> interceptors = restTemplate.getInterceptors();
+
+        class XHeaderInterceptor implements ClientHttpRequestInterceptor
+        {
+            @Override
+            public ClientHttpResponse intercept(HttpRequest request,
+                                                byte[] body, ClientHttpRequestExecution execution) throws IOException
+            {
+                HttpHeaders headers = request.getHeaders();
+                headers.remove(headerName);
+                return execution.execute(request, body);
+            }
+        }
+
+        ClientHttpRequestInterceptor interceptor = new XHeaderInterceptor();
+        interceptors.add(interceptor);
+
+        restTemplate.setInterceptors(interceptors);
+    }
+
     @When("^a \"([^\"]*)\" request is made to endpoint \"([^\"]*)\"$")
     public void makeRequest(String reqType, String endpoint) throws Throwable
     {
-        RestTemplate proxiedRest = template.getRestTemplate();
-        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
-        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 8888);
-        Proxy proxy = new Proxy(Proxy.Type.HTTP,address);
-        factory.setProxy(proxy);
-        proxiedRest.setRequestFactory(factory);
+        if (restTemplate == null) restTemplate = template.getRestTemplate();
 
         if (reqType.equals("GET"))
         {
-            //res = template.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
-            res = proxiedRest.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
+            res = restTemplate.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
         }
         else if (reqType.equals("POST"))
         {
-            reqHeaders.add("Content-Type", "application/x-www-form-urlencoded");
-            //res = template.exchange(endpoint, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
-            res = template.exchange(endpoint, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
+            res = restTemplate.exchange(endpoint, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
         }
         else
         {
@@ -113,6 +138,14 @@ public class RequestStepDefs extends IntegrationTestingBase
 
         assertThat("Response header '" + headerName + "' was not set to '" + headerValue + "'",
                 res.getHeaders().getFirst(headerName), is(headerValue));
+    }
+
+    @Then("^the response body should be length (\\d+)$")
+    public void assertResponseBodyLength(int length) throws Throwable
+    {
+        int actualBodyLength = res.getBody() != null ? res.getBody().length() : 0;
+
+        assertThat("Response body length code is not as expected...", actualBodyLength, is(length));
     }
 
 }

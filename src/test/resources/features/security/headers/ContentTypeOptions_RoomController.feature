@@ -1,9 +1,9 @@
 @IntegrationTest @SecurityTest
 Feature: X-Content-Type-Options - RoomController
 
-  - Endpoints that return content should have header X-Content-Type-Options set to "nosniff"
+  - Endpoints that return content should have response header X-Content-Type-Options set to "nosniff"
 
-  Scenario: X-Content-Type-Options header is set when getting the rooms list
+  Scenario: Response X-Content-Type-Options header is set when getting the rooms list
 
     Given the application in an integration environment
     When the user is authenticated with username "rjohnson" and password "Bananas3"
@@ -11,7 +11,7 @@ Feature: X-Content-Type-Options - RoomController
     Then the response should have status code 200
     And the response should have header "X-Content-Type-Options" set to "nosniff"
 
-  Scenario: X-Content-Type-Options header is set when getting a room by its name
+  Scenario: Response X-Content-Type-Options header is set when getting a room by its name
 
     Given the application in an integration environment
     When the user is authenticated with username "rjohnson" and password "Bananas3"
@@ -19,7 +19,7 @@ Feature: X-Content-Type-Options - RoomController
     Then the response should have status code 200
     And the response should have header "X-Content-Type-Options" set to "nosniff"
 
-  Scenario: X-Content-Type-Options header is set when getting a room's availability by its name
+  Scenario: Response X-Content-Type-Options header is set when getting a room's availability by its name
 
     Given the application in an integration environment
     When the user is authenticated with username "rjohnson" and password "Bananas3"
