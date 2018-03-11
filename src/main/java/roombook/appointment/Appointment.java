@@ -1,5 +1,7 @@
 package roombook.appointment;
 
+import org.json.simple.JSONObject;
+
 import java.util.Date;
 
 public class Appointment
@@ -67,5 +69,19 @@ public class Appointment
 
     public void setEnd(Date end) {
         this.end = end;
+    }
+
+    public String toJSONString()
+    {
+        JSONObject obj = new JSONObject();
+
+        obj.put("name", this.name);
+        obj.put("room", this.room);
+        obj.put("owner", this.owner);
+        obj.put("creator", this.creator);
+        obj.put("start", this.start == null ? null : this.start.getTime());
+        obj.put("end", this.end == null ? null : this.end.getTime());
+
+        return obj.toJSONString();
     }
 }

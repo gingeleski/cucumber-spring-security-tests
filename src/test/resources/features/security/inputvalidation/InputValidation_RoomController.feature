@@ -15,18 +15,16 @@ Feature: Input Validation - RoomController
       | rjohnson  | Bananas3 | 05..104  |
       | rjohnson  | Bananas3 | 1';--    |
       | rjohnson  | Bananas3 | a$%;000  |
-      | rjohnson  | Bananas3 | _        |
 
   Scenario Outline: When getting a room's availability by its name, invalid inputs should be responded to as expected
 
     Given the application in an integration environment
     When the user is authenticated with username "<username>" and password "<password>"
     And a "GET" request is made to endpoint "/rooms/<roomName>/availability"
-    Then the response should have status code 200
+    Then the response should have status code 400
 
     Examples:
       | username  | password | roomName |
       | rjohnson  | Bananas3 | 05..104  |
       | rjohnson  | Bananas3 | 1';--    |
       | rjohnson  | Bananas3 | a$%;000  |
-      | rjohnson  | Bananas3 | _        |

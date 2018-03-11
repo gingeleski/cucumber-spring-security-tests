@@ -4,7 +4,11 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.When;
 import cucumber.api.java.en.Then;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.InetSocketAddress;
+import java.net.Proxy;
 import java.util.Properties;
 
 import static org.hamcrest.Matchers.is;
@@ -65,13 +69,22 @@ public class RequestStepDefs extends IntegrationTestingBase
     @When("^a \"([^\"]*)\" request is made to endpoint \"([^\"]*)\"$")
     public void makeRequest(String reqType, String endpoint) throws Throwable
     {
+        RestTemplate proxiedRest = template.getRestTemplate();
+        SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
+        InetSocketAddress address = new InetSocketAddress("127.0.0.1", 8888);
+        Proxy proxy = new Proxy(Proxy.Type.HTTP,address);
+        factory.setProxy(proxy);
+        proxiedRest.setRequestFactory(factory);
+
         if (reqType.equals("GET"))
         {
-            res = template.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
+            //res = template.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
+            res = proxiedRest.exchange(endpoint, HttpMethod.GET, new HttpEntity<>(reqHeaders), String.class);
         }
         else if (reqType.equals("POST"))
         {
             reqHeaders.add("Content-Type", "application/x-www-form-urlencoded");
+            //res = template.exchange(endpoint, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
             res = template.exchange(endpoint, HttpMethod.POST, new HttpEntity<>(reqBody, reqHeaders), String.class);
         }
         else
@@ -90,6 +103,16 @@ public class RequestStepDefs extends IntegrationTestingBase
 
         assertThat("Response status code is not as expected : " +
                 res.getBody(), currentStatusCode.value(), is(statusCode));
+    }
+
+    @Then("^the response should have header \"([^\"]*)\" set to \"([^\"]*)\"$")
+    public void assertResponseHeaderValue(String headerName, String headerValue) throws Throwable
+    {
+        assertThat("Response did not contain header : '" + headerName + "'",
+                res.getHeaders().containsKey(headerName), is(true));
+
+        assertThat("Response header '" + headerName + "' was not set to '" + headerValue + "'",
+                res.getHeaders().getFirst(headerName), is(headerValue));
     }
 
 }

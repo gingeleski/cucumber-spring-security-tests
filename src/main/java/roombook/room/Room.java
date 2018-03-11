@@ -1,5 +1,7 @@
 package roombook.room;
 
+import org.json.simple.JSONObject;
+
 public abstract class Room
 {
     private String name;
@@ -33,5 +35,15 @@ public abstract class Room
 
     public void setSeats(Integer seats) {
         this.seats = seats;
+    }
+
+    public String toJSONString()
+    {
+        JSONObject obj = new JSONObject();
+
+        obj.put("name", this.name);
+        obj.put("seats", this.seats);
+
+        return obj.toJSONString();
     }
 }
