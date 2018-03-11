@@ -1,7 +1,7 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Authorization - RoomController
 
-  I want to run a sample feature file.
+  Note: authorization in RoomController is currently flat, nothing to security test
 
   Scenario: Cucumber setup
 

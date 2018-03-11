@@ -1,10 +1,13 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest @OnlyThis
 Feature: Content-Type - UserController
 
-  I want to run a sample feature file.
+  - Server responds appropriately to incoming requests with no Content-Type header
 
-  Scenario: Cucumber setup
+  Scenario: Request missing Content-Type header receives appropriate response from server
 
-    Given sample feature file is ready
-    When I run the feature file
-    Then run should be successful
+    Given the application in an integration environment
+    When the request body is "username=rjohnson&password=Bananas3"
+    # Error in this case because RestTemplate is automatically setting Content-Type header on request
+    And the request has no "Content-Type" header
+    And a "POST" request is made to endpoint "/login"
+    Then the response should have status code 400

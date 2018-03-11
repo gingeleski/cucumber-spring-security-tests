@@ -72,7 +72,22 @@ public class UserController {
     @PermitAll
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public void login(@RequestParam(value = "username", defaultValue = "") String username,
-                         @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res) {
+                         @RequestParam(value = "password", defaultValue = "") String password, HttpServletResponse res)
+    {
+        String usernameChars = "^[a-zA-Z0-9_-]*$";
+
+        // Validate username
+        if (username.isEmpty() || username.length() < 3 || username.length() > 24 || !username.matches(usernameChars))
+        {
+            res.setStatus(HttpStatus.BAD_REQUEST.value());
+            return;
+        }
+
+        // Validate password
+        if (password.isEmpty() || password.length() < 8 || password.length() > 128) {
+            res.setStatus(HttpStatus.BAD_REQUEST.value());
+            return;
+        }
 
         User user = this.userRepository.findByUsername(username);
 

@@ -1,10 +1,11 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Missing Host - RoomController
 
-  I want to run a sample feature file.
+  - TODO
 
-  Scenario: Cucumber setup
+  Scenario: TODO Missing Host - Room Controller
 
-    Given sample feature file is ready
-    When I run the feature file
-    Then run should be successful
+    Given the application in an integration environment
+    When the user is authenticated with username "rjohnson" and password "Bananas3"
+    And a "GET" request is made to endpoint "/rooms"
+    Then the response should have status code 200

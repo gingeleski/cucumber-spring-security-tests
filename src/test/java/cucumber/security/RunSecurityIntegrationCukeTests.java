@@ -7,6 +7,6 @@ import cucumber.api.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(format = {"pretty", "html:build/cucumber", "json:build/cucumber.json"},
-        features={"src/test/resources/features/security"}, tags={"@SecurityTest", "@IntegrationTest"})
+        features={"src/test/resources/features/security"}, tags={"@SecurityTest", "@IntegrationTest", "~@IgnoreTest"})
 public class RunSecurityIntegrationCukeTests {
 }

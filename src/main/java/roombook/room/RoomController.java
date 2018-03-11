@@ -4,6 +4,9 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import roombook.appointment.Appointment;
 import roombook.appointment.AppointmentService;
-import roombook.appointment.AvailabilityBlock;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.FileReader;
@@ -69,6 +71,11 @@ public class RoomController {
         }
     }
 
+    private boolean validateRoomName(String roomName)
+    {
+        return (!roomName.isEmpty() && roomName.matches("[a-zA-Z0-9_-]*"));
+    }
+
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET)
     public List<Room> getRooms(HttpServletResponse res) {
@@ -77,15 +84,40 @@ public class RoomController {
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}")
-    public Room getRoomByName(@PathVariable String roomName) {
-        return this.roomService.getRoomByName(roomName);
+    public ResponseEntity getRoomByName(@PathVariable String roomName, HttpServletResponse res) throws Throwable
+    {
+        if (false == validateRoomName(roomName)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
+        Room r = this.roomService.getRoomByName(roomName);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(r == null ? null : r.toJSONString());
     }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(method = RequestMethod.GET, value = "/{roomName}/availability")
-    public List<Appointment> getRoomAvailabilityByName(@PathVariable String roomName) {
+    public ResponseEntity getRoomAvailabilityByName(@PathVariable String roomName, HttpServletResponse res)
+    {
+        if (false == validateRoomName(roomName)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+
         // TODO refactor to return AvailabilityBlock instead of Appointment
+
         // TODO get start and end time parameters
-        return this.appointmentService.findByRoomName(roomName, null, null);
+
+        JSONArray roomBookings = new JSONArray();
+
+        for (Appointment a : this.appointmentService.findByRoomName(roomName, null, null))
+        {
+            roomBookings.add(a);
+        }
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(roomBookings.toJSONString());
     }
 }
