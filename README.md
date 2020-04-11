@@ -1,7 +1,9 @@
 
-# Cucumber (BDD) security tests on sample Spring app
+# BDD security testing example for Java
 
-Sample Spring Boot API, Gradle bindings, and BDD-style security tests.
+Cucumber/BDD security tests example for Java (Spring Boot API).
+
+This type of work has also been called "security-as-code".
 
 ## Quickstart
 
