@@ -1,9 +1,11 @@
 
-# Don't commit the dot dirs
+# Don't commit the dot dirs or files
 .idea
 .gradle
 .project
 .settings
+.gradletasknamecache
+.vagrant/
 
 # Ignore build outputs
 build/
@@ -12,8 +14,5 @@ target/
 # Ignore Gradle GUI config
 gradle-app.setting
 
-# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+# Make sure to include Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
-
-# Cache of project
-.gradletasknamecache
