@@ -29,8 +29,8 @@ repositories {
     maven { url 'https://repo.spring.io/libs-snapshot' }
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.13
+targetCompatibility = 1.13
 
 dependencies {
     // START CORE DEPENDENCIES
