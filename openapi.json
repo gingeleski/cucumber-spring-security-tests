@@ -1,0 +1,249 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Spring Security Sample API",
+    "description" : "This is a sample Spring Security API.  It is written for the \npurpose of supporting security tests.\n",
+    "termsOfService" : "https://github.com/gingeleski/cucumber-spring-security-tests",
+    "contact" : {
+      "email" : "rg+github@kapotel.com"
+    },
+    "version" : "1.0.0-oas3"
+  },
+  "externalDocs" : {
+    "description" : "Find out more about Spring Security Sample API",
+    "url" : "https://github.com/gingeleski/cucumber-spring-security-tests"
+  },
+  "servers" : [ {
+    "url" : "http://127.0.0.1:8000/api"
+  } ],
+  "tags" : [ {
+    "name" : "unauthenticated",
+    "description" : "No role-based access restrictions."
+  }, {
+    "name" : "role_ADMIN",
+    "description" : "Access requires ADMIN role."
+  }, {
+    "name" : "role_HR_MGR",
+    "description" : "Access requires HR_MGR role."
+  }, {
+    "name" : "role_ASSISTANT",
+    "description" : "Access requires ASSISTANT role."
+  }, {
+    "name" : "role_EMPLOYEE",
+    "description" : "Access requires EMPLOYEE role."
+  } ],
+  "paths" : {
+    "/login" : {
+      "post" : {
+        "tags" : [ "unauthenticated" ],
+        "summary" : "Authenticates user into the system",
+        "operationId" : "login",
+        "parameters" : [ {
+          "name" : "username",
+          "in" : "query",
+          "description" : "The unique username for login",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "password",
+          "in" : "query",
+          "description" : "The password associated with the user logging in",
+          "required" : true,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "headers" : {
+              "X-Rate-Limit" : {
+                "description" : "calls per hour allowed by the user",
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "integer",
+                  "format" : "int32"
+                }
+              },
+              "X-Expires-After" : {
+                "description" : "date in UTC when token expires",
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "format" : "date-time"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Request format was invalid or contained bad characters"
+          },
+          "401" : {
+            "description" : "Request was of valid format but credentials were invalid"
+          }
+        }
+      }
+    },
+    "/logout" : {
+      "get" : {
+        "tags" : [ "unauthenticated" ],
+        "summary" : "Terminates any currently authenticated session",
+        "operationId" : "logout",
+        "responses" : {
+          "default" : {
+            "description" : "Successful operation"
+          }
+        }
+      }
+    },
+    "/rooms" : {
+      "get" : {
+        "tags" : [ "role_EMPLOYEE", "role_ASSISTANT", "role_HR_MGR", "role_ADMIN" ],
+        "summary" : "Get information on all rooms",
+        "description" : "Get basic information about every room visible to current user",
+        "operationId" : "getRooms",
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid username/password supplied"
+          },
+          "401" : {
+            "description" : "Need to authenticate before accessing this"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/rooms/{roomName}" : {
+      "get" : {
+        "tags" : [ "role_EMPLOYEE", "role_ASSISTANT", "role_HR_MGR", "role_ADMIN" ],
+        "summary" : "Gets room information",
+        "description" : "Get information on the room with this room name",
+        "operationId" : "getRoomByName",
+        "parameters" : [ {
+          "name" : "roomName",
+          "in" : "path",
+          "description" : "Name of room to return information about",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          },
+          "400" : {
+            "description" : "Invalid name supplied"
+          },
+          "401" : {
+            "description" : "Need to authenticate before accessing this"
+          },
+          "404" : {
+            "description" : "Room not found"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/rooms/{roomName}/availability" : {
+      "post" : {
+        "tags" : [ "role_EMPLOYEE", "role_ASSISTANT", "role_HR_MGR", "role_ADMIN" ],
+        "summary" : "Gets room availability",
+        "description" : "Get availability for the room with this name",
+        "operationId" : "getRoomAvailabilityByName",
+        "parameters" : [ {
+          "name" : "roomName",
+          "in" : "path",
+          "description" : "Name of room to return information about",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ApiResponse"
+                }
+              }
+            }
+          },
+          "400" : {
+            "description" : "Invalid name supplied"
+          },
+          "401" : {
+            "description" : "Need to authenticate before accessing this"
+          },
+          "404" : {
+            "description" : "Room not found"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ ]
+        } ]
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ApiResponse" : {
+        "type" : "object",
+        "properties" : {
+          "code" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "api_key" : {
+        "type" : "apiKey",
+        "name" : "api_key",
+        "in" : "header"
+      }
+    }
+  }
+}
