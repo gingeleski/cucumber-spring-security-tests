@@ -22,3 +22,11 @@ sudo echo "source /vagrant/scripts/export.sh" >> /home/vagrant/.bashrc
 echo "[SETUP] Do an initial compile of the project"
 cd /vagrant
 /opt/gradle/gradle-6.3/bin/gradle assemble
+
+echo "[SETUP] Clone BDD-Security so it's available for end-to-end testing"
+cd ~
+git clone https://github.com/gingeleski/bdd-security.git
+
+echo "[SETUP] Do an initial compile of BDD-Security"
+cd bdd-security
+/opt/gradle/gradle-6.3/bin/gradle assemble
