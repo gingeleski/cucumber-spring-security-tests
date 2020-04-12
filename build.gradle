@@ -18,6 +18,11 @@ apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
+compileJava {
+    // Show us deprecation warnings so we can continually fix/improve our code
+    options.compilerArgs << '-Xlint:deprecation'
+}
+
 jar {
     archiveBaseName = 'sample-spring-boot-api'
     archiveVersion =  '2020.04.09'
