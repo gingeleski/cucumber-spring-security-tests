@@ -9,10 +9,9 @@ import roombook.Application;
 
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("INTEGRATION_TEST")
-@ContextConfiguration
-public abstract class IntegrationTestingBase {
-
+@ContextConfiguration(classes = { RestTemplateConfig.class, HttpClientConfig.class })
+public abstract class IntegrationTestingBase
+{
     @Autowired
     protected TestRestTemplate template;
-
 }
