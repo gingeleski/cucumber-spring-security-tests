@@ -21,16 +21,16 @@
     "description" : "No role-based access restrictions."
   }, {
     "name" : "role_ADMIN",
-    "description" : "Access requires ADMIN role."
+    "description" : "Access requires at least ADMIN role."
   }, {
     "name" : "role_HR_MGR",
-    "description" : "Access requires HR_MGR role."
+    "description" : "Access requires at least HR_MGR role."
   }, {
     "name" : "role_ASSISTANT",
-    "description" : "Access requires ASSISTANT role."
+    "description" : "Access requires at least ASSISTANT role."
   }, {
     "name" : "role_EMPLOYEE",
-    "description" : "Access requires EMPLOYEE role."
+    "description" : "Access requires at least EMPLOYEE role."
   } ],
   "paths" : {
     "/login" : {
@@ -113,7 +113,7 @@
     },
     "/rooms" : {
       "get" : {
-        "tags" : [ "role_EMPLOYEE", "role_ASSISTANT", "role_HR_MGR", "role_ADMIN" ],
+        "tags" : [ "role_EMPLOYEE" ],
         "summary" : "Get information on all rooms",
         "description" : "Get basic information about every room visible to current user",
         "operationId" : "getRooms",
@@ -142,7 +142,7 @@
     },
     "/rooms/{roomName}" : {
       "get" : {
-        "tags" : [ "role_EMPLOYEE", "role_ASSISTANT", "role_HR_MGR", "role_ADMIN" ],
+        "tags" : [ "role_EMPLOYEE" ],
         "summary" : "Gets room information",
         "description" : "Get information on the room with this room name",
         "operationId" : "getRoomByName",
@@ -178,7 +178,7 @@
     },
     "/rooms/{roomName}/availability" : {
       "post" : {
-        "tags" : [ "role_EMPLOYEE", "role_ASSISTANT", "role_HR_MGR", "role_ADMIN" ],
+        "tags" : [ "role_EMPLOYEE" ],
         "summary" : "Gets room availability",
         "description" : "Get availability for the room with this name",
         "operationId" : "getRoomAvailabilityByName",
@@ -212,6 +212,50 @@
           },
           "404" : {
             "description" : "Room not found"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/admin/clearAllEvents" : {
+      "post" : {
+        "tags" : [ "role_ADMIN" ],
+        "summary" : "Deletes all scheduled events",
+        "description" : "Deletes all scheduled events from the system",
+        "operationId" : "clearAllEvents",
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          },
+          "401" : {
+            "description" : "Need to authenticate before accessing this"
+          },
+          "403" : {
+            "description" : "Insufficient access role"
+          }
+        },
+        "security" : [ {
+          "api_key" : [ ]
+        } ]
+      }
+    },
+    "/admin/clearAllRooms" : {
+      "post" : {
+        "tags" : [ "role_ADMIN" ],
+        "summary" : "Deletes all rooms",
+        "description" : "Deletes all rooms from the system",
+        "operationId" : "clearAllRooms",
+        "responses" : {
+          "200" : {
+            "description" : "Successful operation"
+          },
+          "401" : {
+            "description" : "Need to authenticate before accessing this"
+          },
+          "403" : {
+            "description" : "Insufficient access role"
           }
         },
         "security" : [ {
