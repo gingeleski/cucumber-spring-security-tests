@@ -101,3 +101,7 @@ Loads canned data in the following order...
     - Example output
         - `[{start: 1516626000, end:1516627800, available:false}]`
     - Must be authenticated as at least `EMPLOYEE`
+- `POST /admin/clearAllEvents` (TODO)
+    - Must be authenticated as `ADMIN`
+- `POST /admin/clearAllRooms` (TODO)
+    - Must be authenticated as `ADMIN`
