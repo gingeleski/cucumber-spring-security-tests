@@ -3,70 +3,79 @@ buildscript {
     repositories {
         jcenter()
         mavenCentral()
-        maven { url 'https://repo.spring.io/libs-snapshot' }
+        maven { url "https://repo.spring.io/libs-snapshot" }
     }
     dependencies {
-        classpath('org.springframework.boot:spring-boot-gradle-plugin:2.2.6.RELEASE')
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.6.RELEASE")
     }
 }
 
-group 'com.gingeleski'
-version '2020.04.09'
+group "com.gingeleski"
+version "2020.04.09"
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+apply plugin: "java"
+apply plugin: "idea"
+apply plugin: "org.springframework.boot"
+apply plugin: "io.spring.dependency-management"
 
 compileJava {
     // Show us deprecation warnings so we can continually fix/improve our code
-    options.compilerArgs << '-Xlint:deprecation'
+    options.compilerArgs << "-Xlint:deprecation"
 }
 
 jar {
-    archiveBaseName = 'sample-spring-boot-api'
-    archiveVersion =  '2020.04.09'
+    archiveBaseName = "sample-spring-boot-api"
+    archiveVersion =  "2020.04.09"
 }
 
 repositories {
     mavenCentral()
     jcenter()
-    maven { url 'https://repo.spring.io/libs-snapshot' }
+    maven { url "https://repo.spring.io/libs-snapshot" }
 }
 
 sourceCompatibility = 1.13
 targetCompatibility = 1.13
 
+ext {
+    // START VERSION VARIABLES
+
+    springVersion = "5.2.5.RELEASE"
+    springBootVersion = "2.2.6.RELEASE"
+
+    // END VERSION VARIABLES
+}
+
 dependencies {
     // START CORE DEPENDENCIES
 
-    implementation group: 'org.springframework', name: 'spring-core', version: '5.2.5.RELEASE'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.6.RELEASE'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '2.2.6.RELEASE'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '2.2.6.RELEASE'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '2.2.6.RELEASE'
-    implementation group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version: '2.2.6.RELEASE'
+    implementation group: "org.springframework", name: "spring-core", version: "$springVersion"
+    implementation group: "org.springframework.boot", name: "spring-boot-starter-web", version: "$springBootVersion"
+    implementation group: "org.springframework.boot", name: "spring-boot-starter-actuator", version: "$springBootVersion"
+    implementation group: "org.springframework.boot", name: "spring-boot-starter-security", version: "$springBootVersion"
+    implementation group: "org.springframework.boot", name: "spring-boot-starter-data-jpa", version: "$springBootVersion"
+    implementation group: "org.springframework.security.oauth", name: "spring-security-oauth2", version: "$springBootVersion"
 
     // * Warning these are hella old dependencies that needs to be refactored away *
-    implementation group: 'org.codehaus.groovy.modules.http-builder', name: 'http-builder', version: '0.7.1'
-    implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
+    implementation group: "org.codehaus.groovy.modules.http-builder", name: "http-builder", version: "0.7.1"
+    implementation group: "com.googlecode.json-simple", name: "json-simple", version: "1.1.1"
     // * End warning *
 
-    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation group: "io.jsonwebtoken", name: "jjwt", version: "0.9.1"
 
     // END CORE DEPENDENCIES
 
     // START TEST DEPENDENCIES
 
-    testImplementation group: 'io.cucumber', name: 'cucumber-core', version: '5.6.0'
-    testImplementation group: 'io.cucumber', name: 'cucumber-java', version: '5.6.0'
-    testImplementation group: 'io.cucumber', name: 'cucumber-junit', version: '5.6.0'
+    testImplementation group: "io.cucumber", name: "cucumber-core", version: "5.6.0"
+    testImplementation group: "io.cucumber", name: "cucumber-java", version: "5.6.0"
+    testImplementation group: "io.cucumber", name: "cucumber-junit", version: "5.6.0"
     
-    testImplementation group: 'junit', name: 'junit', version: '4.13'
+    testImplementation group: "junit", name: "junit", version: "4.13"
 
-    testImplementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.12'
+    testImplementation group: "org.apache.httpcomponents", name: "httpclient", version: "4.5.12"
 
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.6.RELEASE'
+    testImplementation group: "org.springframework.boot", name: "spring-boot-starter-test", version: "$springBootVersion"
 
     // END TEST DEPENDENCIES
 }
