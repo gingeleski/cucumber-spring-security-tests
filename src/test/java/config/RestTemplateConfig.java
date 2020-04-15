@@ -1,4 +1,4 @@
-package cucumber.security;
+package config;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 

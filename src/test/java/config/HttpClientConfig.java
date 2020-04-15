@@ -1,4 +1,4 @@
-package cucumber.security;
+package config;
 
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
