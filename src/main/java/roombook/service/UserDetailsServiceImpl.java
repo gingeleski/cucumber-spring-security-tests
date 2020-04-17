@@ -18,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        roombook.user.User User = UserRepository.findByUsername(username);
+        roombook.model.user.User User = UserRepository.findByUsername(username);
         if (User == null) {
             throw new UsernameNotFoundException(username);
         }

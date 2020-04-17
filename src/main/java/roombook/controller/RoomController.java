@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import roombook.model.appointment.Appointment;
+import roombook.model.room.ConferenceRoom;
+import roombook.model.room.FocusRoom;
 import roombook.model.room.Room;
+import roombook.model.room.ShareRoom;
 import roombook.service.AppointmentService;
 import roombook.service.RoomService;
 
@@ -96,7 +99,7 @@ public class RoomController {
         Room r = this.roomService.getRoomByName(roomName);
 
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(r == null ? null : r.toJSONString());
     }
 
@@ -120,7 +123,7 @@ public class RoomController {
         }
 
         return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .body(roomBookings.toJSONString());
     }
 }

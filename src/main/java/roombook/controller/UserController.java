@@ -17,8 +17,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
+import roombook.model.user.AdminUser;
+import roombook.model.user.AssistantUser;
+import roombook.model.user.EmployeeUser;
+import roombook.model.user.HRManagerUser;
+import roombook.model.user.User;
 import roombook.security.SecurityUtils;
-import roombook.service.UserService;
+import roombook.service.UserRepository;
 
 import static roombook.security.SecurityUtils.HEADER_STRING;
 import static roombook.security.SecurityUtils.TOKEN_PREFIX;
