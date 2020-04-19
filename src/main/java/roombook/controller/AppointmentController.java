@@ -1,25 +1,35 @@
 package roombook.controller;
 
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+//import java.io.FileReader;
+//import java.util.ArrayList;
+//import java.util.Date;
+//import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+//import org.json.simple.JSONArray;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.context.annotation.Bean;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import roombook.model.appointment.Appointment;
-import roombook.service.AppointmentService;
+//import roombook.model.appointment.Appointment;
+//import roombook.service.AppointmentService;
 
 @RestController
-@RequestMapping("/appointments")
-public class AppointmentController {
+@RequestMapping("/api")
+public class AppointmentController
+{
+    // GET /api/appointments
+    @GetMapping("/appointments")
+    public ResponseEntity getAppointments()
+    {
+        return ResponseEntity.ok("");
+    }
 
+/*
     @Autowired
     private AppointmentService appointmentService;
 
@@ -63,4 +73,5 @@ public class AppointmentController {
             return;
         }
     }
+ */
 }

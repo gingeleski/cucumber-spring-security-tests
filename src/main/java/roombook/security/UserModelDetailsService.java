@@ -13,8 +13,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import roombook.model.User;
-import roombook.service.UserRepository;
+import roombook.model.user.User;
+import roombook.repository.UserRepository;
 
 import java.util.List;
 import java.util.Locale;

@@ -1,4 +1,4 @@
-package roombook.service;
+package roombook.repository;
 
 import java.util.ArrayList;
 import java.util.Date;

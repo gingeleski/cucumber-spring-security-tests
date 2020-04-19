@@ -8,10 +8,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import roombook.model.appointment.Appointment;
+import roombook.repository.AppointmentRepository;
 
 @Service
-public class AppointmentService {
-
+public class AppointmentService
+{
     @Autowired
     private AppointmentRepository appointmentRepository;
 

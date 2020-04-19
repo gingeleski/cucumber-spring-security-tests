@@ -1,4 +1,4 @@
-package org.zerhusen.security;
+package roombook.security;
 
 import org.springframework.security.core.AuthenticationException;
 

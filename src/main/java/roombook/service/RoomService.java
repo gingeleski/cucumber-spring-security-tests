@@ -5,12 +5,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import roombook.model.room.Room;
+import roombook.repository.RoomRepository;
 
 import java.util.List;
 
 @Service
-public class RoomService {
-
+public class RoomService
+{
     @Autowired
     private RoomRepository roomRepository;
 
