@@ -1,13 +1,7 @@
 package roombook.controller;
 
 import javax.servlet.http.HttpServletResponse;
-//import java.io.FileReader;
-//import java.util.List;
 
-//import org.json.simple.JSONArray;
-//import org.json.simple.JSONObject;
-//import org.json.simple.parser.JSONParser;
-//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,75 +12,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-//import roombook.model.appointment.Appointment;
-//import roombook.model.room.ConferenceRoom;
-//import roombook.model.room.FocusRoom;
-//import roombook.model.room.Room;
-//import roombook.model.room.ShareRoom;
-//import roombook.service.AppointmentService;
-//import roombook.service.RoomService;
-
-//import static java.lang.Math.toIntExact;
+import roombook.model.appointment.Appointment;
+import roombook.model.room.Room;
+import roombook.service.AppointmentService;
+import roombook.service.RoomService;
 
 @RestController
 @RequestMapping("/api")
 public class RoomController
 {
-/*
-    @Autowired
-    private RoomService roomService;
+    private final AppointmentService appointmentService;
+    private final RoomService roomService;
 
-    @Autowired
-    private AppointmentService appointmentService;
-
-    public RoomController()
+    public RoomController(AppointmentService appointmentService, RoomService roomService)
     {
-        initialLoadFromJsonFile();
-    }
-
-    private void initialLoadFromJsonFile()
-    {
-        try {
-            String jsonFilePath = RoomController.class.getClassLoader().getResource("rooms.json").getPath();
-
-            JSONParser parser = new JSONParser();
-            JSONArray a = (JSONArray) parser.parse(new FileReader(jsonFilePath));
-
-            for (Object o : a)
-            {
-                Room room;
-                JSONObject jsonRoom = (JSONObject) o;
-
-                String type = (String) jsonRoom.get("type");
-
-                if (type.equals("CONFERENCE")) {
-                    room = new ConferenceRoom();
-                }
-                else if (type.equals("FOCUS")) {
-                    room = new FocusRoom();
-                }
-                else { // "SHARE"
-                    room = new ShareRoom();
-                }
-
-                room.setName((String) jsonRoom.get("name"));
-                room.setSeats(toIntExact((long) jsonRoom.get("seats")));
-
-                this.roomService.save(room);
-            }
-        }
-        catch (Exception e) {
-            return;
-        }
+        this.appointmentService = appointmentService;
+        this.roomService = roomService;
     }
 
     private boolean validateRoomName(String roomName)
     {
         return (!roomName.isEmpty() && roomName.matches("[a-zA-Z0-9_-]*"));
     }
-*/
+
     // GET /api/rooms
-    //@PreAuthorize("isAuthenticated()")
     @GetMapping("/rooms")
     public ResponseEntity getRooms(HttpServletResponse res)
     {
@@ -95,7 +44,6 @@ public class RoomController
     }
 
     // GET /api/rooms/{roomName}
-    //@PreAuthorize("isAuthenticated()")
     @GetMapping("/rooms/{roomName}")
     public ResponseEntity getRoomByName(@PathVariable String roomName, HttpServletResponse res) throws Throwable
     {
@@ -113,19 +61,17 @@ public class RoomController
     }
 
     // GET /api/rooms/{roomName}/availability
-    //@PreAuthorize("isAuthenticated()")
     @GetMapping("/rooms/{roomName}/availability")
     public ResponseEntity getRoomAvailabilityByName(@PathVariable String roomName, HttpServletResponse res)
     {
-        /*
         if (false == validateRoomName(roomName)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
 
-        // TODO refactor to return AvailabilityBlock instead of Appointment
+        // TODO maybe refactor to return some sort of availability DTO instead of Appointment objects ?
 
-        // TODO get start and end time parameters
-
+        // TODO get optional start and end time parameters
+/*
         JSONArray roomBookings = new JSONArray();
 
         for (Appointment a : this.appointmentService.findByRoomName(roomName, null, null))
