@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: X-Content-Type-Options - RoomController
 
   - Endpoints that return content should have response header X-Content-Type-Options set to "nosniff"

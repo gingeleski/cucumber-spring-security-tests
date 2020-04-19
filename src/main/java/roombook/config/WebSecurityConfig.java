@@ -53,7 +53,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
         // Going to specify paths to ignore
         web.ignoring()
                 .antMatchers(HttpMethod.OPTIONS, "/**") // OPTIONS requests have no authZ restrictions
-                .antMatchers("/", // Static resources have no authZ restrictions
+                .antMatchers("/", // No authZ for H2 console and any static resources we might add
                              "/*.html",
                              "/favicon.ico",
                              "/**/*.html",

@@ -18,10 +18,14 @@ apply plugin: "idea"
 apply plugin: "org.springframework.boot"
 apply plugin: "io.spring.dependency-management"
 
+// START show deprecation warnings so we can continually fix/improve our code
 compileJava {
-    // Show us deprecation warnings so we can continually fix/improve our code
     options.compilerArgs << "-Xlint:deprecation"
 }
+compileTestJava {
+    options.compilerArgs << "-Xlint:deprecation"
+}
+// END show deprecation warnings so we can continually fix/improve our code
 
 jar {
     archiveBaseName = "sample-spring-boot-api"

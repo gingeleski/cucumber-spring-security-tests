@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Cache Control - RoomController
 
   - All responses have header "Cache-Control" set to "no-cache, no-store, max-age=0, must-revalidate"

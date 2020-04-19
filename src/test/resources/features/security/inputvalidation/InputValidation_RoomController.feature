@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Input Validation - RoomController
 
   - Endpoints that accept user input in some form should response as expected

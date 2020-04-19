@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Authentication - UserController
 
   - Authentication is successful with a valid username and valid password

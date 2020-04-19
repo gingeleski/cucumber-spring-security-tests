@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Expect header - RoomController
 
   - Server responds with 417 status and does not leak information when request has Expect header set to "foo"

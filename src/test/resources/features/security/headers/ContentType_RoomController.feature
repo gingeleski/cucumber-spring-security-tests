@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Content-Type - RoomController
 
   - Endpoints that return content should have response header Content-Type with an appropriate setting
