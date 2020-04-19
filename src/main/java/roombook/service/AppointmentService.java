@@ -1,26 +1,25 @@
 package roombook.service;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import roombook.security.SecurityUtils;
 import roombook.model.appointment.Appointment;
 import roombook.repository.AppointmentRepository;
 
+import java.util.Optional;
+
 @Service
+@Transactional
 public class AppointmentService
 {
-    @Autowired
-    private AppointmentRepository appointmentRepository;
+    private final AppointmentRepository appointmentRepository;
 
-    @Bean
-    AppointmentRepository appointmentRepository() {
-        return new AppointmentRepository();
+    public AppointmentService(AppointmentRepository appointmentRepository)
+    {
+        this.appointmentRepository = appointmentRepository;
     }
-
+/*
     public List<Appointment> findByRoomName(String roomName, Long start, Long end) {
         Date startDate = null;
         Date endDate = null;
@@ -39,4 +38,5 @@ public class AppointmentService
     public void save(Appointment appointment) {
         this.appointmentRepository.save(appointment);
     }
+*/
 }

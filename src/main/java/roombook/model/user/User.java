@@ -34,21 +34,6 @@ public class User
     @Size(min = 4, max = 100)
     private String password;
 
-    @Column(name = "FIRSTNAME", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String firstName;
-
-    @Column(name = "LASTNAME", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String lastName;
-
-    @Column(name = "EMAIL", length = 50)
-    @NotNull
-    @Size(min = 4, max = 50)
-    private String email;
-
     @JsonIgnore
     @Column(name = "ACTIVATED")
     @NotNull
@@ -60,67 +45,53 @@ public class User
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    public Long getId() {
+    public Long getId()
+    {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Long id)
+    {
         this.id = id;
     }
 
-    public String getUsername() {
+    public String getUsername()
+    {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username)
+    {
         this.username = username;
     }
 
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(String password)
+    {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public boolean isActivated() {
+    public boolean isActivated()
+    {
         return activated;
     }
 
-    public void setActivated(boolean activated) {
+    public void setActivated(boolean activated)
+    {
         this.activated = activated;
     }
 
-    public Set<Authority> getAuthorities() {
+    public Set<Authority> getAuthorities()
+    {
         return authorities;
     }
 
-    public void setAuthorities(Set<Authority> authorities) {
+    public void setAuthorities(Set<Authority> authorities)
+    {
         this.authorities = authorities;
     }
 
@@ -137,18 +108,17 @@ public class User
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         return Objects.hash(id);
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "User{" +
                     "username='" + username + "'" +
                     ", password='" + password + "'" +
-                    ", firstName='" + firstName + "'" +
-                    ", lastName='" + lastName + "'" +
-                    ", email='" + email + "'" +
                     ", activated=" + activated +
                     "}";
     }
