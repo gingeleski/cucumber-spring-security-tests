@@ -1,22 +1,52 @@
 package roombook.security;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.Date;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
-public class SecurityUtils {
-    public static final String SECRET = "SecretKeyToGenJWTs";
-    public static final long EXPIRATION_TIME = 864_000_000; // 10 days
-    public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String HEADER_STRING = "Authorization";
-    public static final String LOGIN_URL = "/login";
+import java.util.Optional;
 
-    public static String generateToken(String username) {
-        return Jwts.builder()
-                .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET.getBytes())
-                .compact();
+public class SecurityUtils
+{
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtils.class);
+
+    /**
+     * Override default constructor so this cannot be called.
+     */
+    private SecurityUtils() { }
+
+    /**
+     * Get the login of the current user.
+     *
+     * @return login of current user
+     */
+    public static Optional<String> getCurrentUsername()
+    {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null)
+        {
+            LOG.debug("no authentication in security context found");
+            return Optional.empty();
+        }
+
+        String username = null;
+
+        if (authentication.getPrincipal() instanceof UserDetails)
+        {
+            UserDetails springSecurityUser = (UserDetails) authentication.getPrincipal();
+            username = springSecurityUser.getUsername();
+        }
+        else if (authentication.getPrincipal() instanceof String)
+        {
+            username = (String) authentication.getPrincipal();
+        }
+
+        LOG.debug("Found username '{}' in security context.", username);
+
+        return Optional.ofNullable(username);
     }
 }

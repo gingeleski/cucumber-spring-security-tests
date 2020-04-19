@@ -31,6 +31,7 @@ import static roombook.security.SecurityUtils.TOKEN_PREFIX;
 @RestController
 public class UserController {
 
+    @Autowired
     private UserRepository userRepository;
 
     public UserController(UserRepository userRepository) {
