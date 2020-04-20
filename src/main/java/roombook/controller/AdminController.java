@@ -27,9 +27,10 @@ public class AdminController
     @PostMapping("/admin/clearAllRooms")
     public ResponseEntity adminDeleteRooms()
     {
-        // TODO implement this function
+        roomService.deleteAll();
 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).contentType(MediaType.APPLICATION_JSON).body(null);
+        // Return a 204 No Content - successful action, empty response body
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).contentType(MediaType.APPLICATION_JSON).body(null);
     }
 
     // POST /api/admin/clearAllReservations
