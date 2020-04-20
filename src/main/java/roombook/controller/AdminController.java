@@ -37,8 +37,9 @@ public class AdminController
     @PostMapping("/admin/clearAllReservations")
     public ResponseEntity adminDeleteAppointments()
     {
-        // TODO implement this function
+        appointmentService.deleteAll();
 
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).contentType(MediaType.APPLICATION_JSON).body(null);
+        // Return a 204 No Content - successful action, empty response body
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).contentType(MediaType.APPLICATION_JSON).body(null);
     }
 }
