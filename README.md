@@ -52,6 +52,60 @@ Notable dependencies and components in this image are as follows...
 - Gradle 6.x
 - BDD-Security
     - [@gingeleski fork](https://github.com/gingeleski/bdd-security)
+    
+## Development setup
+
+Building on the **Quickstart** and **Vagrant** subsections, a suggested workflow for developers will be described here.
+
+1. Install IntelliJ IDEA if you don't already have it. Community edition is fine.
+2. Install Java 13 (JDK) locally if you don't already have it. This is for IntelliJ to point to and resolve dependencies, syntax.
+3. Clone this project code locally.
+4. Initialize the virtual machine for this project with Vagrant.
+5. Dynamically generate the IntelliJ project files on your local machine using the Gradle wrapper.
+6. Open IntelliJ and use that for your development needs.
+7. Use this project's virtual machine to build the code and run the test suite.
+8. Execute version control from your local machine where you presumably have Github credentials set up already.
+
+Commands for steps 3 through 6 are as follows.
+
+```
+git clone https://github.com/gingeleski/cucumber-spring-security-tests.git
+cd cucumber-spring-security-tests
+
+vagrant up
+
+# Windows
+.\gradlew.bat idea
+# Linux
+./gradlew idea
+
+# Windows
+.\gradlew.bat openIdea
+# Linux
+./gradlew openIdea
+```
+
+Going into your virtual machine to do step 7 can be performed as follows.
+
+```
+# From your local machine, confirm your VM is running
+vagrant status
+
+# If it's NOT running then do...
+vagrant up
+
+# Go into the VM to run commands now
+vagrant ssh
+
+# Make working directory the mapped folder where Vagrantfile resides - so, this project folder
+cd /vagrant
+
+# Compile and test the code
+gradle build
+
+# View all other possible Gradle tasks
+gradle tasks
+```
 
 ## RoomBook sample API
 
