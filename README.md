@@ -148,13 +148,13 @@ Note that the API in its current state may not support *all* of these actions.
 
 The following test users will be set up...
 
-| Username    | Password   | Authorization    | Activated |
-|-------------|------------|------------------|-----------|
-| `admin`     | `admin`    | `ROLE_ADMIN`     | True      |
-| `employee`  | `password` | `ROLE_EMPLOYEE`  | True      |
-| `disabled`  | `password` | `ROLE_EMPLOYEE`  | False     |
-| `assistant` | `password` | `ROLE_ASSISTANT` | True      |
-| `hrmanager` | `password` | `ROLE_HR_MGR`    | True      |
+| Username        | Password   | Authorization    | Activated |
+|-----------------|------------|------------------|-----------|
+| `administrator` | `admin`    | `ROLE_ADMIN`     | True      |
+| `employee`      | `password` | `ROLE_EMPLOYEE`  | True      |
+| `disabled`      | `password` | `ROLE_EMPLOYEE`  | False     |
+| `assistant`     | `password` | `ROLE_ASSISTANT` | True      |
+| `hrmanager`     | `password` | `ROLE_HR_MGR`    | True      |
 
 ## API calls
 
