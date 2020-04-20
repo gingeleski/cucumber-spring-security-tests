@@ -39,4 +39,9 @@ public class RoomService
         // No result for that name
         return null;
     }
+
+    public void deleteAll()
+    {
+        this.roomRepository.deleteAll();
+    }
 }
