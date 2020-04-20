@@ -87,13 +87,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter
                 .and()
                 .authorizeRequests()
                 .antMatchers("/api/authenticate").permitAll()
-                ////.antMatchers("/api/register").permitAll()
-                ////.antMatchers("/api/activate").permitAll()
-                ////.antMatchers("/api/account/reset-password/init").permitAll()
-                ////.antMatchers("/api/account/reset-password/finish").permitAll()
                 // Continue authZ'ing here - check roles as specified below
-                .antMatchers("/api/person").hasAuthority("ROLE_USER")
-                .antMatchers("/api/hiddenmessage").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/admin/**").hasAuthority("ROLE_ADMIN")
+                .antMatchers("/api/rooms/**").hasAuthority("ROLE_EMPLOYEE")
                 // Otherwise blanket that users should be authN'd
                 .anyRequest().authenticated()
                 .and()
