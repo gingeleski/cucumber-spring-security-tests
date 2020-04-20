@@ -24,4 +24,9 @@ public class AppointmentService
     {
         return this.appointmentRepository.findByRoomName(roomName);
     }
+
+    public void deleteAll()
+    {
+        this.appointmentRepository.deleteAll();
+    }
 }
