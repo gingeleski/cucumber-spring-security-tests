@@ -7,7 +7,7 @@ import roombook.security.SecurityUtils;
 import roombook.model.appointment.Appointment;
 import roombook.repository.AppointmentRepository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @Transactional
@@ -19,24 +19,9 @@ public class AppointmentService
     {
         this.appointmentRepository = appointmentRepository;
     }
-/*
-    public List<Appointment> findByRoomName(String roomName, Long start, Long end) {
-        Date startDate = null;
-        Date endDate = null;
 
-        if (start != null) {
-            startDate = new Date(start);
-        }
-
-        if (end != null) {
-            endDate = new Date(end);
-        }
-
-        return this.appointmentRepository.findByRoomName(roomName, startDate, endDate);
+    public List<Appointment> findByRoomName(String roomName)
+    {
+        return this.appointmentRepository.findByRoomName(roomName);
     }
-
-    public void save(Appointment appointment) {
-        this.appointmentRepository.save(appointment);
-    }
-*/
 }

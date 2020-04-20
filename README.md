@@ -108,10 +108,10 @@ These detailed calls represent the current state of the API.
 
 Pay particular attention to any noted TODOs, and note there may be some lacking functionality versus the access control list.
 
-- `POST /login`
+- `POST /api/authenticate`
     - Authenticates user
         - Sets JWT good for 24 hours
-            - `Authorization: Bearer ...` header
+            - Use in `Authorization: Bearer ...` header
     - Only endpoint you can hit unauthenticated
     - Input
         - Data transfer object (DTO) as JSON
@@ -119,24 +119,30 @@ Pay particular attention to any noted TODOs, and note there may be some lacking 
         - `username` is a string, required
         - `password` is a string, required
     - Output
-        - Sets header `Authorization: Bearer <TOKEN>`
-- `GET /rooms` (TODO)
+        - JSON
+            - Where JWT is in field `id_token`
+- `GET /api/rooms`
     - Get list of all rooms
     - Must be authenticated as at least `EMPLOYEE`
-- `GET /rooms/<room_name>` (TODO)
-    - Get information on the room with this room name
-    - Must be authenticated as at least `EMPLOYEE`
-- `GET /rooms/<id>/availability` (TODO)
-    - Input
-        - Need at least one for search
-        - `start` is a Unix time which available time blocks must be equal or later than
-        - `end` is a Unix time which available time blocks must be earlier or equal to
     - Output
         - JSON
-    - Example output
-        - `[{start: 1516626000, end:1516627800, available:false}]`
+- `GET /api/rooms/{roomName}`
+    - Get information on the room with this room name
     - Must be authenticated as at least `EMPLOYEE`
-- `POST /admin/clearAllEvents` (TODO)
+    - Output
+        - JSON
+- `GET /api/rooms/{roomName}/availability`
+    - Returns availability for the room with this room name
+    - Must be authenticated as at least `EMPLOYEE`
+    - Input
+        - Optional query parameters for filtering (TODO)
+            - `start` is a Unix time which available time blocks must be equal or later than
+            - `end` is a Unix time which available time blocks must be earlier or equal to
+    - Output
+        - JSON
+- `POST /api/admin/clearAllRooms` (TODO)
+    - Deletes all rooms in the system
     - Must be authenticated as `ADMIN`
-- `POST /admin/clearAllRooms` (TODO)
+- `POST /api/admin/clearAllReservations` (TODO)
+    - Deletes all appointments for every room, from now into the future
     - Must be authenticated as `ADMIN`

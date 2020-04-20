@@ -1,7 +1,9 @@
 package roombook.controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,22 +11,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class AdminController
 {
-    @GetMapping("/admin")
-    public ResponseEntity<HiddenMessage> getAdminProtectedGreeting()
+    // POST /api/admin/clearAllRooms
+    @PostMapping("/admin/clearAllRooms")
+    public ResponseEntity adminDeleteRooms()
     {
-        return ResponseEntity.ok(new HiddenMessage("Secret content here"));
+        // TODO implement this function
+
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).contentType(MediaType.APPLICATION_JSON).body(null);
     }
 
-    private static class HiddenMessage
+    // POST /api/admin/clearAllReservations
+    @PostMapping("/admin/clearAllReservations")
+    public ResponseEntity adminDeleteAppointments()
     {
-        private final String message;
+        // TODO implement this function
 
-        private HiddenMessage(String message) {
-            this.message = message;
-        }
-
-        public String getMessage() {
-            return message;
-        }
+        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).contentType(MediaType.APPLICATION_JSON).body(null);
     }
 }
