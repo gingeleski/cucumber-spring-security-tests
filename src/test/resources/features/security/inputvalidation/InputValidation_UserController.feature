@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Input Validation - UserController
 
   - Endpoints that accept user input in some form should response as expected

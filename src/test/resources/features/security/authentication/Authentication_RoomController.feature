@@ -1,4 +1,4 @@
-@IntegrationTest @SecurityTest
+@IgnoreTest @IntegrationTest @SecurityTest
 Feature: Authentication - RoomController
 
   - Endpoints that require authentication cannot be accessed without it

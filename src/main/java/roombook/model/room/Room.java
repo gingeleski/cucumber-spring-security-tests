@@ -1,49 +1,105 @@
 package roombook.model.room;
 
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public abstract class Room
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@Table(name = "ROOM")
+public class Room
 {
-    private String name;
+    @JsonIgnore
+    @Id
+    @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ROOM_SEQ")
+    @SequenceGenerator(name = "ROOM_SEQ", sequenceName = "ROOM_SEQ", allocationSize = 1)
+    private Long id;
+
+    @Column(name = "ROOMNAME", length = 50, unique = true)
+    @NotNull
+    @Size(min = 4, max = 50)
+    private String roomName;
+
+    @Column(name = "SEATS")
+    @NotNull
     private Integer seats;
 
-    public Room()
+    @JsonIgnore
+    @Column(name = "ACTIVATED")
+    @NotNull
+    private boolean activated;
+
+    public Long getId()
     {
-        this.setName(null);
-        this.setSeats(null);
+        return id;
     }
 
-    public Room(String name, int seats)
+    public void setId(Long id)
     {
-        this.setName(name);
-        this.setSeats(seats);
+        this.id = id;
     }
 
-    public abstract String getType();
-
-    public String getName() {
-        return name;
+    public String getRoomName()
+    {
+        return roomName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRoomName(String roomName)
+    {
+        this.roomName = roomName;
     }
 
-    public Integer getSeats() {
+    public Integer getSeats()
+    {
         return seats;
     }
 
-    public void setSeats(Integer seats) {
+    public void setSeats(Integer seats)
+    {
         this.seats = seats;
     }
 
-    public String toJSONString()
+    public boolean isActivated()
     {
-        JSONObject obj = new JSONObject();
+        return activated;
+    }
 
-        obj.put("name", this.name);
-        obj.put("seats", this.seats);
+    public void setActivated(boolean activated)
+    {
+        this.activated = activated;
+    }
 
-        return obj.toJSONString();
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Room room = (Room) o;
+
+        return id.equals(room.id);
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Room{" +
+                "roomName='" + roomName + "'" +
+                ", seats=" + seats +
+                ", activated=" + activated +
+                "}";
     }
 }

@@ -1,33 +1,42 @@
 package roombook.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import roombook.security.SecurityUtils;
 import roombook.model.room.Room;
+import roombook.repository.RoomRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class RoomService {
+@Transactional
+public class RoomService
+{
+    private final RoomRepository roomRepository;
 
-    @Autowired
-    private RoomRepository roomRepository;
-
-    @Bean
-    RoomRepository roomRepository() {
-        return new RoomRepository();
+    public RoomService(RoomRepository roomRepository)
+    {
+        this.roomRepository = roomRepository;
     }
 
-    public List<Room> getRooms() {
-        return this.roomRepository.getRooms();
+    public List<Room> getRooms()
+    {
+        return this.roomRepository.findAll();
     }
 
-    public Room getRoomByName(String name) {
-        return this.roomRepository.getRoomByName(name);
-    }
+    public Room getRoomByName(String name)
+    {
+        Optional<Room> roomResult = this.roomRepository.findByRoomName(name);
 
-    public void save(Room room) {
-        this.roomRepository.save(room);
+        // If the Optional wrapper returns true to isPresent() then we can actually get() and return
+        if (roomResult.isPresent())
+        {
+            return roomResult.get();
+        }
+
+        // No result for that name
+        return null;
     }
 }

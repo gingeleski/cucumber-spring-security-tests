@@ -13,8 +13,8 @@ import org.springframework.http.*;
 import org.springframework.http.client.*;
 import org.springframework.web.client.RestTemplate;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 public class RequestStepDefs extends IntegrationTestingBase
 {
@@ -129,18 +129,16 @@ public class RequestStepDefs extends IntegrationTestingBase
         // Swallow bug (Github issue #21)
         if (currentStatusCode == HttpStatus.FOUND) return;
 
-        assertThat("Response status code is not as expected : " +
-                res.getBody(), currentStatusCode.value(), is(statusCode));
+        assertSame(statusCode, currentStatusCode.value());
     }
 
     @Then("^the response should have header \"([^\"]*)\" set to \"([^\"]*)\"$")
     public void assertResponseHeaderValue(String headerName, String headerValue) throws Throwable
     {
-        assertThat("Response did not contain header : '" + headerName + "'",
-                res.getHeaders().containsKey(headerName), is(true));
+        assertTrue("Response did not contain header : '" + headerName + "'", res.getHeaders().containsKey(headerName));
 
-        assertThat("Response header '" + headerName + "' was not set to '" + headerValue + "'",
-                res.getHeaders().getFirst(headerName), is(headerValue));
+        assertSame("Response header '" + headerName + "' was not set to '" + headerValue + "'",
+                                                                    headerValue, res.getHeaders().getFirst(headerName));
     }
 
     @Then("^the response body should be length (\\d+)$")
@@ -148,7 +146,7 @@ public class RequestStepDefs extends IntegrationTestingBase
     {
         int actualBodyLength = res.getBody() != null ? res.getBody().length() : 0;
 
-        assertThat("Response body length code is not as expected...", actualBodyLength, is(length));
+        assertSame("Response body length is not as expected...", length, actualBodyLength);
     }
 
 }
