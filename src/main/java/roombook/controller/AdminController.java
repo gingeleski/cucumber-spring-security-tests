@@ -7,10 +7,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import roombook.service.AppointmentService;
+import roombook.service.RoomService;
+
 @RestController
 @RequestMapping("/api")
 public class AdminController
 {
+    private final AppointmentService appointmentService;
+    private final RoomService roomService;
+
+    public AdminController(AppointmentService appointmentService, RoomService roomService)
+    {
+        this.appointmentService = appointmentService;
+        this.roomService = roomService;
+    }
+
     // POST /api/admin/clearAllRooms
     @PostMapping("/admin/clearAllRooms")
     public ResponseEntity adminDeleteRooms()
